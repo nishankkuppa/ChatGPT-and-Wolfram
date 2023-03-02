@@ -5,31 +5,29 @@ import re
 from APIKeys import WOLFRAM_APP_ID, OPENAI_API_KEY
 
 # Wolframalpha credentials
-
 client = wolframalpha.Client(WOLFRAM_APP_ID)
 
 # OpenAI credentials
-openai_url = "https://api.openai.com/v1/engines/davinci/jobs"
 openai.api_key = OPENAI_API_KEY
 
 
-def openAIQuery(text):
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=text,
+def GPTQuery(myInput):
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
         temperature=0.5,
         max_tokens=256,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0
+        # n=3,
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant. However, if you're asked to provide an answer "
+                                          "to a purely factual or analytical question that could reasonably be "
+                                          "answered by Wolfram Alpha, delegate to Wolfram Alpha instead by outputting "
+                                          "a query that Wolfram Alpha would understand. Indicate this scenario by "
+                                          "formatting the output exactly like this: Query for WolframAlpha: <query>"},
+            {"role": "user", "content": myInput},
+        ]
+
     )
-    return response["choices"][0]["text"].replace('\n', '')
-
-
-def CalculationQuery(calc):
-    res = client.query(calc)
-    answer = next(res.results).text
-    return answer
+    return completion.choices[0].message.content
 
 
 def wolframQuery(userInput):
@@ -44,7 +42,7 @@ def wolframQuery(userInput):
     # Check if the request was successful (i.e., HTTP status code 200)
     if response.status_code == 200:
         # Print the short answer returned by the API
-        return "Wolfram: " + response.text
+        return f"Wolfram: {response.text}"
     else:
         # Print the error message returned by the API
         return f"Error: {response.text}"
@@ -62,8 +60,8 @@ def chatbot():
             print(result)
 
         else:
-            myResponse = openAIQuery(promptNew)
-            print("OpenAI: " + myResponse)
+            myResponse = GPTQuery(promptNew)
+            print(f"ChatGPT: {myResponse}")
 
 
 if __name__ == "__main__":
