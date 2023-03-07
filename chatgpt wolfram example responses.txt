@@ -1,0 +1,11 @@
+You: How does a light bulb work?
+ChatGPT: A light bulb works by passing an electric current through a filament, which heats up and produces light. Would you like me to look up more information on this topic?
+
+You: What time is it in London?
+ChatGPT: According to Wolfram Alpha, The current time in London, Greater London, United Kingdom, is 2:01:20 A.M. Greenwich Mean Time, Tuesday, March 7, 2023
+
+You: What is the distance between San Francisco and Istanbul?
+ChatGPT: According to Wolfram Alpha, The distance from the center of San Francisco, California to the center of Istanbul is about 6713 miles
+
+You: what is the square root of 883993983
+ChatGPT: According to Wolfram Alpha, The square root of 883993983 is approximately 29732
